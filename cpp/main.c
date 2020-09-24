@@ -1,4 +1,4 @@
-#include <jni.h>   // JNI header provided by JDK
+#include "jni.h"   // JNI header provided by JDK
 #include <stdio.h> // C Standard IO Header
 #include <string>
 #include <memory>

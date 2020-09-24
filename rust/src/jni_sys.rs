@@ -1,5 +1,6 @@
 #![doc(html_root_url="https://docs.rs/jni-sys/0.3.0")]
 #![allow(non_snake_case, non_camel_case_types)]
+//! COPY PASTED FROM RUST JNI LIBRARY
 
 use std::os::raw::c_void;
 use std::os::raw::c_char;

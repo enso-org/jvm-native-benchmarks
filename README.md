@@ -1,41 +1,3 @@
-### Steps To Run
-
-#### Linux
-
-1. `cd rust; cargo build --release; cd ..; cp rust/target/release/rust.so ./rust.so`
-2. ```
-   cd cpp
-   g++ -std=c++17 -O3 -fPIC -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" -shared -o cpp.so main.c
-   cd ..
-   cp cpp/cpp.so ./cpp.so
-   ```
-3. run java application with `-Djava.library.path=.`
-  
- 
-#### Windows
-
-1. `cd rust; cargo build --release; cd ..; cp rust/target/release/rust.dll ./rust.dll`
-2. ```
-   cd cpp
-   g++ -std=c++17 -O3 -fPIC -I"%JAVA_HOME%/include" -I"%JAVA_HOME%/include/windows" -shared -o cpp.dll main.c
-   cd ..
-   cp cpp/cpp.dll ./cpp.dll
-   ```
-3. run java applicatio with `-Djava.library.path=.`
-  
-  
-#### Mac
-
-1. `cd rust; cargo build --release; cd ..; cp rust/target/release/rust.dylib ./rust.dylib`
-2. ```
-   cd cpp
-   g++ -std=c++17 -O3 -fPIC -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/darwin" -dynamiclib -o cpp.dylib main.c
-   cd ..
-   cp cpp/cpp.dylib ./cpp.dylib
-   ```
-3. run java applicatio with `-Djava.library.path=.`
-  
-  
 ### Results (operations / second)
 
 
@@ -48,14 +10,54 @@
 
 
 All tests construct an `App(fun, arg)` tree with depth=20 that is a copy of a preallocated tree.
-The objects are constructed trough JNI by `AllocObject + SetField`.
+The objects were constructed with JNI API `AllocObject + SetField`.
 
 - C++: The preallocated tree is of form `App(UniquePtr<Ast>, UniquePtr<Ast>)`.
 - Rust: The preallocated tree is of form `App(Box<Ast>, Box<Ast>)`.
 - Unsafe Rust: Uses JNI API directly instead of using the jni rust library.
 
 
-Result "test.Bench.testCName":
-  1.649 ±(99.9%) 0.158 ops/s [Average]
-  (min, avg, max) = (1.594, 1.649, 1.696), stdev = 0.041
-  CI (99.9%): [1.491, 1.807] (assumes normal distribution)
+### Steps To Run
+
+#### Linux
+
+1. ```
+   cd rust; cargo build --release; cd ..; cp rust/target/release/rust.so ./rust.so
+   ```
+2. ```
+   cd cpp
+   g++ -std=c++17 -O3 -fPIC -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" -shared -o cpp.so main.c
+   cd ..
+   cp cpp/cpp.so ./cpp.so
+   ```
+3. run java application with `-Djava.library.path=.`
+  
+ 
+#### Windows
+
+1. ```
+   cd rust; cargo build --release; cd ..; cp rust/target/release/rust.dll ./rust.dll
+   ```
+2. ```
+   cd cpp
+   g++ -std=c++17 -O3 -fPIC -I"%JAVA_HOME%/include" -I"%JAVA_HOME%/include/windows" -shared -o cpp.dll main.c
+   cd ..
+   cp cpp/cpp.dll ./cpp.dll
+   ```
+3. run java applicatio with `-Djava.library.path=.`
+  
+  
+#### Mac
+
+1. ```
+   cd rust; cargo build --release; cd ..; cp rust/target/release/rust.dylib ./rust.dylib
+   ```
+2. ```
+   cd cpp
+   g++ -std=c++17 -O3 -fPIC -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/darwin" -dynamiclib -o cpp.dylib main.c
+   cd ..
+   cp cpp/cpp.dylib ./cpp.dylib
+   ```
+3. run java applicatio with `-Djava.library.path=.`
+  
+

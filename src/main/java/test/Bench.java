@@ -1,8 +1,6 @@
 package test;
 
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -94,17 +92,17 @@ public class Bench {
 
     // JAVA
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testJavaName(MyState state) {
         App.copy(state.jAst[0]);
     }
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testJavaOffset(MyState state) {
         App.copy(state.jAst[1]);
     }
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testJavaPosition(MyState state) {
         App.copy(state.jAst[2]);
     }
@@ -112,55 +110,54 @@ public class Bench {
 
     // C++
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testCName(MyState state) {
         cBench(state.cAst[0]);
     }
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testCOffset(MyState state) {
         cBench(state.cAst[1]);
     }
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testCPosition(MyState state) {
         cBench(state.cAst[2]);
     }
 
     // RUST
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testRustName(MyState state) {
         rBench(state.rAst[0]);
     }
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testRustOffset(MyState state) {
         rBench(state.rAst[1]);
     }
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testRustPosition(MyState state) {
         rBench(state.rAst[2]);
     }
 
     // UNSAFE RUST
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testRustNameUnsafe(MyState state) {
         rBenchUnsafe(state.rAst[0]);
     }
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testRustOffsetUnsafe(MyState state) {
         rBenchUnsafe(state.rAst[1]);
     }
 
-    @Benchmark
+    @Benchmark @BenchmarkMode({Mode.AverageTime, Mode.SingleShotTime})
     public void testRustPositionUnsafe(MyState state) {
         rBenchUnsafe(state.rAst[2]);
     }
-
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()

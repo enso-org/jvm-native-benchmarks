@@ -87,8 +87,8 @@ public class Bench {
     @State(Scope.Thread)
     public static class MyState {
         public Object[] jAst = new Object[]{App.ast(0, 20), App.ast(1, 20), App.ast(2, 20)};
-        public long  [] rAst = new long[]{rAst(0, 0), rAst(1, 0), rAst(2, 0)};
-        public long  [] cAst = new long[]{cAst(0,0),cAst(1,0),cAst(2,0)};
+        public long  [] rAst = new long[]{rAst(0, 20), rAst(1, 20), rAst(2, 20)};
+        public long  [] cAst = new long[]{cAst(0, 20), cAst(1, 20), cAst(2, 20)};
     }
 
 

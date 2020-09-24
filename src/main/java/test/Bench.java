@@ -17,13 +17,13 @@ class App {
         this.arg = arg;
     }
 
-    public static Object tree(long typ, long depth) {
+    public static Object ast(long typ, long depth) {
         if (depth == 0) {
             if (typ == 0) return new Name("");
             if (typ == 1) return new Offset(0);
             if (typ == 2) return new Position(0, 0);
         }
-        return new App(App.tree(typ, depth-1), App.tree(typ, depth-1));
+        return new App(App.ast(typ, depth - 1), App.ast(typ, depth - 1));
     }
 
     public static Object copy(Object tree) {
@@ -68,55 +68,106 @@ class Position {
 }
 
 
-
 public class Bench {
-    static {  System.load("D:/enso/jvm-native-benchmarks/cpp/main.dll"); }
+    static {
+        System.loadLibrary("rust");
+        System.loadLibrary("cpp");
+    }
 
-    private static native App tree(long typ, long depth);
-    private static native long rustTree(long typ, long depth);
-    private static native App rustJni(long ast);
-    private static native App rustRaw(long ast);
+    private static native long cAst(long typ, long depth);
+
+    private static native long rAst(long typ, long depth);
+
+    private static native Object cBench(long astPtr);
+
+    private static native Object rBench(long astPtr);
+
+    private static native Object rBenchUnsafe(long astPtr);
 
     @State(Scope.Thread)
     public static class MyState {
-//        public Object[] javaAst = new Object[]{App.tree(0,20),App.tree(1,20),App.tree(2,20)};
-//        public long[] rustAst = new long[]{rustTree(0,20),rustTree(1,20),rustTree(2,20)};
+        public Object[] jAst = new Object[]{App.ast(0, 20), App.ast(1, 20), App.ast(2, 20)};
+        public long  [] rAst = new long[]{rAst(0, 0), rAst(1, 0), rAst(2, 0)};
+        public long  [] cAst = new long[]{cAst(0,0),cAst(1,0),cAst(2,0)};
     }
 
 
-//    @Benchmark
-//    public void test_java_copy_name() {
-//        App.copy(App.tree(0, 20));
-//    }
-//    @Benchmark
-//    public void test_java_copy_offset() {
-//        App.copy(App.tree(1, 20));
-//    }
-//    @Benchmark
-//    public void test_java_copy_position() {
-//        App.copy(App.tree(2, 20));
-//    }
+    // JAVA
 
-//    @Benchmark
-//    public void test_rust_name() {
-//        tree(0,20);
-//    }
-//    @Benchmark
-//    public void test_rust_offset() {
-//        tree(1,20);
-//    }
     @Benchmark
-    public void test_rust_position(MyState state) {
-       App a = tree(1, 20);
+    public void testJavaName(MyState state) {
+        App.copy(state.jAst[0]);
+    }
+
+    @Benchmark
+    public void testJavaOffset(MyState state) {
+        App.copy(state.jAst[1]);
+    }
+
+    @Benchmark
+    public void testJavaPosition(MyState state) {
+        App.copy(state.jAst[2]);
+    }
+
+
+    // C++
+
+    @Benchmark
+    public void testCName(MyState state) {
+        cBench(state.cAst[0]);
+    }
+
+    @Benchmark
+    public void testCOffset(MyState state) {
+        cBench(state.cAst[1]);
+    }
+
+    @Benchmark
+    public void testCPosition(MyState state) {
+        cBench(state.cAst[2]);
+    }
+
+    // RUST
+
+    @Benchmark
+    public void testRustName(MyState state) {
+        rBench(state.rAst[0]);
+    }
+
+    @Benchmark
+    public void testRustOffset(MyState state) {
+        rBench(state.rAst[1]);
+    }
+
+    @Benchmark
+    public void testRustPosition(MyState state) {
+        rBench(state.rAst[2]);
+    }
+
+    // UNSAFE RUST
+
+    @Benchmark
+    public void testRustNameUnsafe(MyState state) {
+        rBenchUnsafe(state.rAst[0]);
+    }
+
+    @Benchmark
+    public void testRustOffsetUnsafe(MyState state) {
+        rBenchUnsafe(state.rAst[1]);
+    }
+
+    @Benchmark
+    public void testRustPositionUnsafe(MyState state) {
+        rBenchUnsafe(state.rAst[2]);
     }
 
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(Bench.class.getSimpleName())
-                .verbosity(VerboseMode.EXTRA)
-                .forks(1)
-                .build();
+            .include(Bench.class.getSimpleName())
+            .verbosity(VerboseMode.EXTRA)
+            .forks(1)
+            .build();
 
         new Runner(opt).run();
 

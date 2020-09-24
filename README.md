@@ -1,5 +1,24 @@
-### Results (operations / second)
+### Results 
 
+#### Milliseconds / run (Cold Start)
+
+| method      | Leave=Name("x") | Leave=Offset(1) | Leave=Position(2,3) |
+|:--          | :--:            |:--:             |:--:                 |
+| Java        | 66              | 34              | 45                  |
+| C++         | 731             | 283             | 302                 |
+| Rust        | 1 306           | 434             | 546                 |
+| Unsafe Rust | 673             | 415             | 492                 |
+
+#### Milliseconds / run (Average)
+
+| method      | Leave=Name("x") | Leave=Offset(1) | Leave=Position(2,3) |
+|:--          | :--:            |:--:             |:--:                 |
+| Java        | 10              | 9               | 9                   |
+| C++         | 611             | 258             | 288                 |
+| Rust        | 993             | 413             | 472                 |
+| Unsafe Rust | 443             | 311             | 307                 |
+
+#### Runs / second (Average)
 
 | method      | Leave=Name("x") | Leave=Offset(1) | Leave=Position(2,3) |
 |:--          | :--:            |:--:             |:--:                 |

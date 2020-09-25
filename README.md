@@ -1,4 +1,23 @@
-### Results 
+## Results 
+
+### Serialization
+
+#### Milliseconds / run (Cold Start)
+
+| method      | Leave=Name("x") | Leave=Offset(1) | Leave=Position(2,3) |
+|:--          | :--:            |:--:             |:--:                 |
+| handwritten | 208             | 142             | 186                 |
+| flatbuffers | 463             | 365             | 423                 |
+
+#### Milliseconds / run (Average)
+
+| method      | Leave=Name("x") | Leave=Offset(1) | Leave=Position(2,3) |
+|:--          | :--:            |:--:             |:--:                 |
+| handwritten | 98              | 80              | 92                  |
+| flatbuffers | 338             | 285             | 322                 |
+
+
+### AllocObject + SetField
 
 #### Milliseconds / run (Cold Start)
 
@@ -36,7 +55,7 @@ The objects were constructed with JNI API `AllocObject + SetField`.
 - Unsafe Rust: Uses JNI API directly instead of using the jni rust library.
 
 
-### Steps To Run
+## Steps To Run
 
 #### Linux
 

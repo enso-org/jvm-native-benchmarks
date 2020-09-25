@@ -1,0 +1,5 @@
+union Ast      { App, Name, Offset, Position  }
+table App      { fun   : Ast;    arg : Ast;   }
+table Name     { str   : string;              }
+table Offset   { value : int64;               }
+table Position { at    : int64;  to  : int64; }

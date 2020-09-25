@@ -1,7 +1,12 @@
+#![feature(slice_from_raw_parts)]
 
 pub mod jni_lib;
 pub mod jni_raw;
 pub mod jni_sys;
+pub mod jni_serialize;
+#[allow(dead_code, unused_imports)]
+pub mod ast_generated;
+mod jni_flat_serialize;
 
 use jni_sys::*;
 
